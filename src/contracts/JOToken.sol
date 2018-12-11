@@ -1,15 +1,21 @@
 pragma solidity ^0.4.23;
 
-import 'zeppelin-solidity/contracts/token/ERC20/StandardToken.sol';
+import 'openzeppelin-solidity/contracts/token/ERC20/ERC20.sol';
+import 'openzeppelin-solidity/contracts/token/ERC20/ERC20Capped.sol';
+import 'openzeppelin-solidity/contracts/token/ERC20/ERC20Detailed.sol';
 
-contract JOToken is StandardToken {
+contract JOToken is ERC20, ERC20Detailed, ERC20Capped {
     string public name = "JOToken";
     string public symbol = "JO";
-    uint public decimals = 18;
-    uint public INITIAL_SUPPLY = 1000000000 * (10 ** decimals);
+    uint8 public decimals = 18;
+    uint public INITIAL_SUPPLY = 1000000000 * (10 ** uint(decimals));
 
-    constructor() public {
-        totalSupply_ = INITIAL_SUPPLY;
-        balances[msg.sender] = INITIAL_SUPPLY;
+    constructor()
+        ERC20Capped(INITIAL_SUPPLY)
+        ERC20Detailed(name, symbol, decimals)
+        ERC20()
+        public 
+    {
+        mint(msg.sender, INITIAL_SUPPLY);
     }
 }
