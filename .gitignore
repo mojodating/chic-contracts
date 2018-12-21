@@ -4,3 +4,5 @@
 # donenv file
 .env
 
+# npm files
+src/node_modules
